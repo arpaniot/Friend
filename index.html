@@ -177,7 +177,8 @@
             transform: scale(1.08) rotate(-1deg);
         }
 
-        #no-btn {
+        /* Re-usable class for the running no buttons */
+        .runaway-no {
             background-color: #f0f0f0;
             color: #888;
             position: absolute;
@@ -266,24 +267,27 @@
                 <span class="name-banner">Hi Sampriti! 🌸</span>
                 <div class="personalized-note">I heard you were feeling down, so I built this secret universe just to cheer you up. 🧸</div>
                 <p>Shall we play a little game to bring back that smile? 😊</p>
-                <div class="button-group">
+                <div class="button-group" id="zone-1">
                     <button class="next-btn" onclick="nextSlide(2)">Let's Play! 🚀</button>
+                    <button class="runaway-no" id="no-1">No 🥺</button>
                 </div>
             </div>
 
             <div class="slide" id="slide-2">
                 <span class="name-banner">Did you know? 🌟</span>
                 <p>You are one of the strongest, most wonderful people on this planet. The world is so much brighter with you in it! Do you believe that? 💖</p>
-                <div class="button-group">
+                <div class="button-group" id="zone-2">
                     <button class="next-btn" onclick="nextSlide(3)">Yes, I am! 🥰</button>
+                    <button class="runaway-no" id="no-2">No 🥺</button>
                 </div>
             </div>
 
             <div class="slide" id="slide-3">
                 <span class="name-banner">Deep Breath 🍃</span>
                 <p>Bad days are temporary, but your strength is permanent. Whatever is making you sad today cannot beat your sparkling spirit. Are you ready to let go of the sadness? 🧸</p>
-                <div class="button-group">
-                    <button class="next-btn" onclick="nextSlide(4)">Yes, fully ready! Sunshine only! ☀️</button>
+                <div class="button-group" id="zone-3">
+                    <button class="next-btn" onclick="nextSlide(4)">Yes, fully ready! ☀️</button>
+                    <button class="runaway-no" id="no-3">No 🥺</button>
                 </div>
             </div>
 
@@ -291,10 +295,9 @@
                 <span class="name-banner">The Big Question 💖</span>
                 <div class="personalized-note" style="font-size:1.1rem;">(Use the joystick 🕹️ or your mouse to move the ✨ cursor!)</div>
                 <p>Are you feeling a little bit happier and motivated now? 🥰</p>
-                
-                <div class="button-group" id="game-zone">
+                <div class="button-group" id="zone-4">
                     <button id="yes-btn" class="yes-btn-common">Yes! 😄</button>
-                    <button id="no-btn">No 🥺</button>
+                    <button class="runaway-no" id="no-4">No 🥺</button>
                 </div>
             </div>
 
@@ -309,9 +312,7 @@
 
     <script>
         const card = document.getElementById('card');
-        const gameZone = document.getElementById('game-zone');
         const yesBtn = document.getElementById('yes-btn');
-        const noBtn = document.getElementById('no-btn');
         const cursor = document.getElementById('custom-cursor');
         const joystick = document.getElementById('joystick-container');
         const knob = document.getElementById('joystick-knob');
@@ -322,11 +323,20 @@
         cursor.style.left = cursorX + 'px';
         cursor.style.top = cursorY + 'px';
 
+        let currentActiveSlide = 1;
+
         function nextSlide(slideNumber) {
+            currentActiveSlide = slideNumber;
             document.querySelectorAll('.slide').forEach(slide => {
                 slide.classList.remove('active');
             });
             document.getElementById(`slide-${slideNumber}`).classList.add('active');
+            
+            if (slideNumber === 5) {
+                cursor.remove();
+                joystick.remove();
+            }
+
             for (let i = 0; i < 8; i++) {
                 setTimeout(createFloatingElement, i * 100);
             }
@@ -395,11 +405,15 @@
         window.addEventListener('touchmove', handleMove, { passive: true });
         window.addEventListener('touchend', handleEnd);
 
-        function moveButton() {
-            const zoneWidth = gameZone.offsetWidth;
-            const zoneHeight = gameZone.offsetHeight;
-            const btnWidth = noBtn.offsetWidth || 80;
-            const btnHeight = noBtn.offsetHeight || 50;
+        // Runaway script targeting whichever "No" button is active inside its current box zone
+        function moveButton(btnId, zoneId) {
+            const currentBtn = document.getElementById(btnId);
+            const currentZone = document.getElementById(zoneId);
+            
+            const zoneWidth = currentZone.offsetWidth;
+            const zoneHeight = currentZone.offsetHeight;
+            const btnWidth = currentBtn.offsetWidth || 80;
+            const btnHeight = currentBtn.offsetHeight || 50;
 
             const padX = 15;
             const padY = 10;
@@ -412,35 +426,46 @@
             const randomX = Math.random() * (maxX - minX) + minX;
             const randomY = Math.random() * (maxY - minY) + minY;
 
-            noBtn.style.left = randomX + 'px';
-            noBtn.style.top = randomY + 'px';
+            currentBtn.style.left = randomX + 'px';
+            currentBtn.style.top = randomY + 'px';
         }
 
         function checkCollision() {
-            if (!document.getElementById('slide-4').classList.contains('active')) return;
+            if (currentActiveSlide > 4) return;
+            
+            const btnId = `no-${currentActiveSlide}`;
+            const zoneId = `zone-${currentActiveSlide}`;
+            const noBtn = document.getElementById(btnId);
+            if (!noBtn) return;
+
             const noRect = noBtn.getBoundingClientRect();
             const distX = Math.abs(cursorX - (noRect.left + noRect.width / 2));
             const distY = Math.abs(cursorY - (noRect.top + noRect.height / 2));
 
             if (distX < 75 && distY < 50) {
-                moveButton();
+                moveButton(btnId, zoneId);
             }
         }
 
-        noBtn.addEventListener('mouseover', moveButton);
-        noBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
-        noBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            moveButton();
-        });
+        // Apply interactive evasion events to all 4 runaway buttons
+        for (let s = 1; s <= 4; s++) {
+            const bId = `no-${s}`;
+            const zId = `zone-${s}`;
+            const targetBtn = document.getElementById(bId);
+            
+            targetBtn.addEventListener('mouseover', () => moveButton(bId, zId));
+            targetBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                moveButton(bId, zId);
+            });
+            targetBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                moveButton(bId, zId);
+            });
+        }
 
         yesBtn.addEventListener('click', () => {
             nextSlide(5);
-            cursor.remove();
-            joystick.remove();
             for (let i = 0; i < 30; i++) {
                 setTimeout(createFloatingElement, i * 100);
             }
