@@ -49,32 +49,33 @@
             transition: transform 0.05s ease;
         }
 
-        /* --- Joystick Container --- */
+        /* --- Repositioned & Enlarged Joystick Container --- */
         #joystick-container {
             position: fixed;
-            bottom: 40px;
-            left: 40px;
-            width: 100px;
-            height: 100px;
-            background: rgba(255, 255, 255, 0.85);
-            border: 4px solid #ffccd5;
+            bottom: 70px;  /* Raised higher up from the bottom boundary */
+            left: 70px;    /* Shifted further in from the left wall */
+            width: 130px;  /* Enlarged from 100px */
+            height: 130px; /* Enlarged from 100px */
+            background: rgba(255, 255, 255, 0.9);
+            border: 5px solid #ffccd5;
             border-radius: 50%;
             z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 182, 193, 0.5);
             touch-action: none;
         }
 
+        /* Enlarged Joystick Knob */
         #joystick-knob {
-            width: 40px;
-            height: 40px;
+            width: 55px;   /* Enlarged from 40px */
+            height: 55px;  /* Enlarged from 40px */
             background: linear-gradient(135deg, #ff758f, #ff4d6d);
             border-radius: 50%;
             position: absolute;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
         /* --- Main Box --- */
@@ -157,7 +158,7 @@
             align-items: center;
             gap: 20px;
             position: relative;
-            height: 80px; /* Crucial area where No moves around */
+            height: 80px; 
         }
 
         button {
@@ -244,8 +245,10 @@
             .name-banner { font-size: 2.1rem; }
             p { font-size: 1.15rem; }
             button { padding: 12px 30px; font-size: 1.1rem; }
-            #joystick-container { bottom: 20px; left: 20px; width: 80px; height: 80px; }
-            #joystick-knob { width: 30px; height: 30px; }
+            
+            /* Slightly scaled down for mobile screens, but still highly accessible */
+            #joystick-container { bottom: 40px; left: 40px; width: 100px; height: 100px; }
+            #joystick-knob { width: 42px; height: 42px; }
         }
     </style>
 </head>
@@ -258,7 +261,7 @@
     <!-- Custom Pointer (Follows Joystick or Mouse) -->
     <div id="custom-cursor">✨</div>
 
-    <!-- Joystick Control -->
+    <!-- Re-positioned and Enlarged Joystick Control -->
     <div id="joystick-container">
         <div id="joystick-knob"></div>
     </div>
@@ -363,7 +366,9 @@
         let joystickActive = false;
         let startX, startY;
         let moveX = 0, moveY = 0;
-        const maxLimit = 30; // Boundaries of joystick path
+        
+        // Dynamically adjusted boundary limits depending on responsive joystick sizing
+        let maxLimit = window.innerWidth <= 768 ? 30 : 40; 
 
         function handleStart(e) {
             joystickActive = true;
