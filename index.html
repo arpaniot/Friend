@@ -18,7 +18,6 @@
             touch-action: none;
         }
 
-        /* --- Flower Garlands --- */
         .garland {
             position: fixed;
             width: 100%;
@@ -37,7 +36,6 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Ctext x='0' y='15' font-size='15'%3E🌼🌺🌸🌼🌺🌸%3C/text%3E%3C/svg%3E");
         }
 
-        /* --- Custom Mini-Cursor --- */
         #custom-cursor {
             position: absolute;
             width: 30px;
@@ -49,7 +47,6 @@
             transition: transform 0.05s ease;
         }
 
-        /* --- Comfortable Joystick Position --- */
         #joystick-container {
             position: fixed;
             bottom: 70px;  
@@ -77,7 +74,6 @@
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- Main Box --- */
         .container {
             display: flex;
             justify-content: center;
@@ -89,7 +85,7 @@
 
         .main-panel {
             background: rgba(255, 255, 255, 0.95);
-            padding: 45px 30px;
+            padding: 40px 25px;
             border-radius: 40px;
             border: 6px solid #ffccd5;
             box-shadow: 0 15px 35px rgba(255, 182, 193, 0.4);
@@ -98,14 +94,13 @@
             width: 100%;
             position: relative;
             z-index: 5;
-            min-height: 420px; /* Elevated height for spacious gameplay layout */
+            min-height: 440px; 
             display: flex;
             flex-direction: column;
             justify-content: center;
             box-sizing: border-box;
         }
 
-        /* Slide layout styles */
         .slide {
             display: none;
             animation: fadeIn 0.5s ease-in-out forwards;
@@ -120,7 +115,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Gorgeous name banner */
         .name-banner {
             color: #ff4d6d;
             font-size: 2.6rem;
@@ -151,14 +145,13 @@
             line-height: 1.5;
         }
 
-        /* --- Button Group Container --- */
         .button-group {
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 20px;
             position: relative;
-            height: 140px; /* Expanded interaction box area so 'No' has loads of visible running room */
+            height: 140px; 
             margin-top: 10px;
             border-radius: 20px;
         }
@@ -184,19 +177,16 @@
             transform: scale(1.08) rotate(-1deg);
         }
 
-        /* The Run-away No Button */
         #no-btn {
             background-color: #f0f0f0;
             color: #888;
             position: absolute;
             z-index: 7;
-            /* Anchored safely right in front of her eyes at spawn */
             left: 55%;
             top: 45px;
             transition: left 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275), top 0.12s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* --- Cute Decorative Graphics --- */
         .side-decoration {
             position: absolute;
             font-size: 5rem;
@@ -210,8 +200,263 @@
         .flower1 { bottom: 15%; left: 12%; font-size: 4rem; }
         .flower2 { top: 20%; right: 12%; font-size: 4rem; }
 
-        /* --- Floating Particles --- */
         .floating-element {
             position: absolute;
             font-size: 1.5rem;
             pointer-events: none;
+            z-index: 0;
+            animation: floatUp 6s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(105vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        .big-heart {
+            font-size: 5.5rem;
+            color: #ff4d6d;
+            margin: 20px 0;
+            animation: beat 0.8s infinite alternate;
+            display: inline-block;
+        }
+
+        @keyframes beat {
+            to { transform: scale(1.25); }
+        }
+
+        @media (max-width: 768px) {
+            .side-decoration { font-size: 3rem; opacity: 0.5; }
+            .kitten1 { top: 8%; left: 4%; }
+            .kitten2 { bottom: 25%; right: 4%; }
+            .flower1, .flower2 { display: none; }
+            .main-panel { padding: 35px 20px; border-radius: 30px; max-width: 92%; min-height: 400px; }
+            .name-banner { font-size: 2.1rem; }
+            p { font-size: 1.15rem; }
+            button { padding: 12px 30px; font-size: 1.1rem; }
+            .button-group { height: 120px; }
+            #joystick-container { bottom: 40px; left: 40px; width: 100px; height: 100px; }
+            #joystick-knob { width: 42px; height: 42px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="garland top-garland"></div>
+    <div class="garland bottom-garland"></div>
+
+    <div id="custom-cursor">✨</div>
+
+    <div id="joystick-container">
+        <div id="joystick-knob"></div>
+    </div>
+
+    <div class="side-decoration kitten1">🐱💖</div>
+    <div class="side-decoration flower1">🌸</div>
+    <div class="side-decoration flower2">🌺</div>
+    <div class="side-decoration kitten2">🐈✨</div>
+
+    <div class="container">
+        <div class="main-panel" id="card">
+            
+            <div class="slide active" id="slide-1">
+                <span class="name-banner">Hi Sampriti! 🌸</span>
+                <div class="personalized-note">I heard you were feeling down, so I built this secret universe just to cheer you up. 🧸</div>
+                <p>Shall we play a little game to bring back that smile? 😊</p>
+                <div class="button-group">
+                    <button class="next-btn" onclick="nextSlide(2)">Let's Play! 🚀</button>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-2">
+                <span class="name-banner">Did you know? 🌟</span>
+                <p>You are one of the strongest, most wonderful people on this planet. The world is so much brighter with you in it! Do you believe that? 💖</p>
+                <div class="button-group">
+                    <button class="next-btn" onclick="nextSlide(3)">Yes, I am! 🥰</button>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-3">
+                <span class="name-banner">Deep Breath 🍃</span>
+                <p>Bad days are temporary, but your strength is permanent. Whatever is making you sad today cannot beat your sparkling spirit. Are you ready to let go of the sadness? 🧸</p>
+                <div class="button-group">
+                    <button class="next-btn" onclick="nextSlide(4)">Yes, fully ready! Sunshine only! ☀️</button>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-4">
+                <span class="name-banner">The Big Question 💖</span>
+                <div class="personalized-note" style="font-size:1.1rem;">(Use the joystick 🕹️ or your mouse to move the ✨ cursor!)</div>
+                <p>Are you feeling a little bit happier and motivated now? 🥰</p>
+                
+                <div class="button-group" id="game-zone">
+                    <button id="yes-btn" class="yes-btn-common">Yes! 😄</button>
+                    <button id="no-btn">No 🥺</button>
+                </div>
+            </div>
+
+            <div class="slide" id="slide-5">
+                <span class="name-banner">Mission Successful! 🎉</span>
+                <div class="big-heart">💖🌸✨</div>
+                <p>Yay, Sampriti! You did it! I'm always right here in your corner cheering you on. Never forget how amazing you are! Now go rock the day! 🥰🧸</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const card = document.getElementById('card');
+        const gameZone = document.getElementById('game-zone');
+        const yesBtn = document.getElementById('yes-btn');
+        const noBtn = document.getElementById('no-btn');
+        const cursor = document.getElementById('custom-cursor');
+        const joystick = document.getElementById('joystick-container');
+        const knob = document.getElementById('joystick-knob');
+
+        let cursorX = window.innerWidth / 2;
+        let cursorY = window.innerHeight / 2;
+
+        cursor.style.left = cursorX + 'px';
+        cursor.style.top = cursorY + 'px';
+
+        function nextSlide(slideNumber) {
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+            document.getElementById(`slide-${slideNumber}`).classList.add('active');
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createFloatingElement, i * 100);
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            cursorX = e.clientX;
+            cursorY = e.clientY;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            checkCollision();
+        });
+
+        let joystickActive = false;
+        let startX, startY;
+        let moveX = 0, moveY = 0;
+        let maxLimit = window.innerWidth <= 768 ? 30 : 40; 
+
+        function handleStart(e) {
+            joystickActive = true;
+            const touch = e.touches ? e.touches[0] : e;
+            startX = touch.clientX;
+            startY = touch.clientY;
+        }
+
+        function handleMove(e) {
+            if (!joystickActive) return;
+            const touch = e.touches ? e.touches[0] : e;
+            const deltaX = touch.clientX - startX;
+            const deltaY = touch.clientY - startY;
+
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            let angle = Math.atan2(deltaY, deltaX);
+
+            if (distance > maxLimit) {
+                moveX = Math.cos(angle) * maxLimit;
+                moveY = Math.sin(angle) * maxLimit;
+            } else {
+                moveX = deltaX;
+                moveY = deltaY;
+            }
+
+            knob.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            cursorX += (moveX / 4);
+            cursorY += (moveY / 4);
+
+            cursorX = Math.max(10, Math.min(window.innerWidth - 10, cursorX));
+            cursorY = Math.max(10, Math.min(window.innerHeight - 10, cursorY));
+
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            checkCollision();
+        }
+
+        function handleEnd() {
+            joystickActive = false;
+            knob.style.transform = 'translate(0px, 0px)';
+            moveX = 0;
+            moveY = 0;
+        }
+
+        knob.addEventListener('mousedown', handleStart);
+        window.addEventListener('mousemove', handleMove);
+        window.addEventListener('mouseup', handleEnd);
+        knob.addEventListener('touchstart', handleStart, { passive: true });
+        window.addEventListener('touchmove', handleMove, { passive: true });
+        window.addEventListener('touchend', handleEnd);
+
+        function moveButton() {
+            const zoneWidth = gameZone.offsetWidth;
+            const zoneHeight = gameZone.offsetHeight;
+            const btnWidth = noBtn.offsetWidth || 80;
+            const btnHeight = noBtn.offsetHeight || 50;
+
+            const padX = 15;
+            const padY = 10;
+
+            const minX = padX;
+            const maxX = zoneWidth - btnWidth - padX;
+            const minY = padY;
+            const maxY = zoneHeight - btnHeight - padY;
+
+            const randomX = Math.random() * (maxX - minX) + minX;
+            const randomY = Math.random() * (maxY - minY) + minY;
+
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function checkCollision() {
+            if (!document.getElementById('slide-4').classList.contains('active')) return;
+            const noRect = noBtn.getBoundingClientRect();
+            const distX = Math.abs(cursorX - (noRect.left + noRect.width / 2));
+            const distY = Math.abs(cursorY - (noRect.top + noRect.height / 2));
+
+            if (distX < 75 && distY < 50) {
+                moveButton();
+            }
+        }
+
+        noBtn.addEventListener('mouseover', moveButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            moveButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            nextSlide(5);
+            cursor.remove();
+            joystick.remove();
+            for (let i = 0; i < 30; i++) {
+                setTimeout(createFloatingElement, i * 100);
+            }
+        });
+
+        const emojis = ['🌸', '💖', '🌺', '✨', '🐾', '🎀'];
+        function createFloatingElement() {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            element.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+            element.style.left = Math.random() * 95 + 'vw';
+            element.style.animationDuration = (Math.random() * 3 + 4) + 's'; 
+            document.body.appendChild(element);
+            setTimeout(() => { element.remove(); }, 7000);
+        }
+        setInterval(createFloatingElement, 1400);
+    </script>
+</body>
+</html>
